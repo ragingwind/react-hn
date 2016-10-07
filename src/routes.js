@@ -3,12 +3,8 @@ var React = require('react')
 var Route = require('react-router/lib/Route')
 
 var App = require('./App')
-var Item = require('./Item')
-var NotFound = require('./NotFound')
-var PermalinkedComment = require('./PermalinkedComment')
 var Stories = require('./Stories')
 var Updates = require('./Updates')
-var UserProfile = require('./UserProfile')
 
 function stories(route, type, limit, title) {
   return React.createClass({
@@ -40,12 +36,40 @@ module.exports = <Route path="/" component={App}>
   <Route path="show" component={Show}/>
   <Route path="ask" component={Ask}/>
   <Route path="jobs" component={Jobs}/>
-  <Route path="item/:id" component={Item}/>
-  <Route path="job/:id" component={Item}/>
-  <Route path="poll/:id" component={Item}/>
-  <Route path="story/:id" component={Item}/>
-  <Route path="comment/:id" component={PermalinkedComment}/>
+  <Route path="item/:id" getComponent={(s, cb) => {
+    require.ensure([], require => {
+      cb(null, require('./Item'))
+    }, 'Item')
+  }}/>
+  <Route path="job/:id" getComponent={(s, cb) => {
+    require.ensure([], require => {
+      cb(null, require('./Item'))
+    }, 'Item')
+  }}/>
+  <Route path="poll/:id" getComponent={(s, cb) => {
+    require.ensure([], require => {
+      cb(null, require('./Item'))
+    }, 'Item')
+  }}/>
+  <Route path="story/:id" getComponent={(s, cb) => {
+    require.ensure([], require => {
+      cb(null, require('./Item'))
+    }, 'Item')
+  }}/>
+  <Route path="comment/:id" getComponent={(s, cb) => {
+    require.ensure([], require => {
+      cb(null, require('./PermalinkedComment'))
+    }, 'PermalinkedComment')
+  }}/>
   <Route path="newcomments" component={Comments}/>
-  <Route path="user/:id" component={UserProfile}/>
-  <Route path="*" component={NotFound}/>
+  <Route path="user/:id" getComponent={(s, cb) => {
+    require.ensure([], require => {
+      cb(null, require('./UserProfile'))
+    }, 'UserProfile')
+  }}/>
+  <Route path="*" getComponent={(s, cb) => {
+    require.ensure([], require => {
+      cb(null, require('./NotFound'))
+    }, 'NotFound')
+  }}/>
 </Route>
